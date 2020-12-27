@@ -1,0 +1,18 @@
+- hosts: webserver
+  vars_files:
+     -   "{{ ansible_distribution_file_variety }}-{{ ansible_distribution_version }}.yml"   
+  tasks:
+  - name: Installing httpd
+    package:
+       name: {{ webserver }} #variable for software httpd and apache2
+       state: present
+
+  - name: Copying Webpage Content to host file
+    copy:
+       dest: /var/www/html/{{ webpage }}
+       content:  "My O.S is {{ ansible_distribution_file_variety }} "
+
+  - name: Starting Service
+    service:
+       name: {{ service_name }} #variable for software httpd and apache2
+       state: started
